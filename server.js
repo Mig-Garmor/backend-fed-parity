@@ -39,6 +39,7 @@ app.get("/api/prices", verifyApiKey, async (req, res) => {
   }
 });
 
+//Cron job
 app.get("/cron/update-prices", async (req, res) => {
   try {
     await updatePrices();
@@ -49,12 +50,6 @@ app.get("/cron/update-prices", async (req, res) => {
       .json({ message: "Failed to update prices", error: err.message });
   }
 });
-
-updatePrices();
-
-setTimeout(() => {
-  updatePrices();
-}, 1000);
 
 // Start server
 app.listen(PORT, () => {
