@@ -12,6 +12,10 @@ const TOKENS = [
   { name: "FED", pairAddress: "0x333502d557a40fec45350bef9c07f9c53244559a" },
 ];
 
+export const config = {
+  runtime: "nodejs",
+};
+
 export default async function handler(request) {
   if (!verifyApiKey(request)) {
     return new Response(JSON.stringify({ error: "Unauthorized" }), {
