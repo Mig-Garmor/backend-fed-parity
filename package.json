@@ -3,14 +3,9 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "start": "vercel dev"
+    "dev": "vercel dev"
   },
   "dependencies": {
-    "@upstash/redis": "^1.35.3",
-    "axios": "^1.6.0"
-  },
-  "description": "",
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+    "@upstash/redis": "^1.35.3"
+  }
 }
