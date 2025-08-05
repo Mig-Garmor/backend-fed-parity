@@ -1,5 +1,7 @@
 import { redis } from "../../lib/redisClient";
 
+export const config = { runtime: "edge" };
+
 export default async function handler(req, res) {
   try {
     const cached = await redis.get("tokenPrices");
