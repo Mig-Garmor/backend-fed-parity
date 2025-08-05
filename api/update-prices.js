@@ -1,6 +1,10 @@
-import axios from "axios";
-import { redis } from "../../lib/redisClient";
+import { Redis } from "@upstash/redis";
 import { verifyApiKey } from "../../lib/auth";
+
+const redis = new Redis({
+  url: process.env.UPSTASH_REDIS_REST_URL,
+  token: process.env.UPSTASH_REDIS_REST_TOKEN,
+});
 
 const TOKENS = [
   { name: "PDAI", pairAddress: "0xfc64556faa683e6087f425819c7ca3c558e13ac1" },
@@ -8,18 +12,26 @@ const TOKENS = [
   { name: "FED", pairAddress: "0x333502d557a40fec45350bef9c07f9c53244559a" },
 ];
 
-export default async function handler(req, res) {
-  if (!verifyApiKey(req, res)) return;
+export const config = { runtime: "edge" };
+
+export default async function handler(request) {
+  if (!verifyApiKey(request)) {
+    return new Response(JSON.stringify({ error: "Unauthorized" }), {
+      status: 401,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
 
   try {
     const prices = {};
 
     for (const token of TOKENS) {
       try {
-        const response = await axios.get(
+        const res = await fetch(
           `https://api.dexscreener.com/latest/dex/pairs/pulsechain/${token.pairAddress}`
         );
-        const pair = response.data.pairs?.[0];
+        const data = await res.json();
+        const pair = data.pairs?.[0];
 
         prices[token.name] = {
           price: pair?.priceUsd || null,
@@ -36,8 +48,14 @@ export default async function handler(req, res) {
 
     await redis.set("tokenPrices", JSON.stringify(prices));
 
-    res.status(200).json({ message: "Prices updated", prices });
+    return new Response(JSON.stringify({ message: "Prices updated", prices }), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    return new Response(JSON.stringify({ error: err.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 }
