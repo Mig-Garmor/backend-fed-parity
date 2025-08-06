@@ -11,13 +11,10 @@ export const config = {
   runtime: "nodejs",
 };
 
-export default async function handler(request) {
+export default async function handler(req, res) {
   try {
-    if (!verifyApiKey(request)) {
-      return new Response(JSON.stringify({ error: "Unauthorized" }), {
-        status: 401,
-        headers: { "Content-Type": "application/json" },
-      });
+    if (!verifyApiKey(req)) {
+      return res.status(401).json({ error: "Unauthorized" });
     }
 
     const prices = {};
