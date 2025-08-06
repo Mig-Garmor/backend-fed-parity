@@ -1,10 +1,5 @@
-import { Redis } from "@upstash/redis";
 import { verifyApiKey } from "../../lib/auth";
-
-const redis = new Redis({
-  url: process.env.UPSTASH_REDIS_REST_URL,
-  token: process.env.UPSTASH_REDIS_REST_TOKEN,
-});
+import { redis } from "../lib/redisClient.js";
 
 const TOKENS = [
   { name: "PDAI", pairAddress: "0xfc64556faa683e6087f425819c7ca3c558e13ac1" },

@@ -1,4 +1,4 @@
-import { redis } from "../../lib/redisClient";
+import { redis } from "../lib/redisClient.js";
 
 export const config = {
   runtime: "nodejs",
