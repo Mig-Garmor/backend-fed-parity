@@ -17,7 +17,11 @@ export default async function handler(request) {
       status: 401,
       headers: { "Content-Type": "application/json" },
     });
-  }
+  } else
+    return new Response(JSON.stringify({ success: "Authorized" }), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
 
   try {
     const prices = {};
