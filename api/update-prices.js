@@ -15,7 +15,7 @@ export default async function handler(req, res) {
   try {
     if (!verifyApiKey(req)) {
       return res.status(401).json({ error: "Unauthorized" });
-    }
+    } else return res.status(201).json({ success: "Successfully authorized" });
 
     const prices = {};
 
