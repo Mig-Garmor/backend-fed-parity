@@ -5,7 +5,6 @@ export const config = {
 };
 
 export default async function handler(req, res) {
-  console.log("here");
   try {
     const cached = await redis.get("tokenPrices");
 
