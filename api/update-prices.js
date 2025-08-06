@@ -12,18 +12,14 @@ export const config = {
 };
 
 export default async function handler(request) {
-  if (!verifyApiKey(request)) {
-    return new Response(JSON.stringify({ error: "Unauthorized" }), {
-      status: 401,
-      headers: { "Content-Type": "application/json" },
-    });
-  } else
-    return new Response(JSON.stringify({ success: "Authorized" }), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
-
   try {
+    if (!verifyApiKey(request)) {
+      return new Response(JSON.stringify({ error: "Unauthorized" }), {
+        status: 401,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
     const prices = {};
 
     for (const token of TOKENS) {
