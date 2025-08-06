@@ -1,4 +1,4 @@
-import { verifyApiKey } from "../lib/auth";
+import { verifyApiKey } from "../lib/auth.js";
 import { redis } from "../lib/redisClient.js";
 
 const TOKENS = [
