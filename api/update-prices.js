@@ -15,7 +15,7 @@ export default async function handler(req, res) {
   try {
     if (!verifyApiKey(req)) {
       return res.status(401).json({ error: "Unauthorized" });
-    } else return res.status(201).json({ success: "Successfully authorized" });
+    }
 
     const prices = {};
 
@@ -42,14 +42,8 @@ export default async function handler(req, res) {
 
     await redis.set("tokenPrices", JSON.stringify(prices));
 
-    return new Response(JSON.stringify({ message: "Prices updated", prices }), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
+    return res.status(200).json({ message: "Prices updated", prices });
   } catch (err) {
-    return new Response(JSON.stringify({ error: err.message }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
-    });
+    return res.status(500).json({ error: err.message });
   }
 }
