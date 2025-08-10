@@ -48,7 +48,9 @@ export default async function handler(req, res) {
     //   price: pair?.priceUsd || null,
     //   lastUpdated: new Date().toISOString(),
     // };
-    return pairsFormattedData;
+    return res
+      .status(200)
+      .json({ message: "Pairs updated", pairsFormattedData });
   } catch (err) {
     // prices[token.name] = {
     //   error: true,
