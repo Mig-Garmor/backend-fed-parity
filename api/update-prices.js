@@ -1,6 +1,5 @@
 import { verifyApiKey } from "../lib/auth.js";
 import { redis } from "../lib/redisClient.js";
-import { applyCors } from "../lib/cors.js";
 
 const TOKENS = [
   { name: "PDAI", pairAddress: "0xfc64556faa683e6087f425819c7ca3c558e13ac1" },
