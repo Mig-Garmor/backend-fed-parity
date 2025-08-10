@@ -36,8 +36,8 @@ export default async function handler(req, res) {
       },
       liquidity: {
         total: pair.liquidity?.usd || "",
-        baseToken: pair.liquidity.base,
-        quoteToken: pair.liquidity.quote,
+        baseToken: pair.liquidity?.base || "",
+        quoteToken: pair.liquidity?.quote || "",
       },
       pairCreationTime: pair.pairCreatedAt,
     }));
