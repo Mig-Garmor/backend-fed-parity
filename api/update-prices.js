@@ -13,8 +13,6 @@ export const config = {
 };
 
 export default async function handler(req, res) {
-  if (!applyCors(req, res)) return;
-
   try {
     if (!verifyApiKey(req)) {
       return res.status(401).json({ error: "Unauthorized" });
