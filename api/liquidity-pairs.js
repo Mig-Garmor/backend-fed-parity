@@ -17,7 +17,7 @@ export default async function handler(req, res) {
 
   try {
     const res = await fetch(
-      `https://api.dexscreener.com/token-pairs/v1/pulsechain/${token.pairAddress}`
+      `https://api.dexscreener.com/token-pairs/v1/pulsechain/${TOKENS[0].tokenAddress}`
     );
     const pairs = await res.json();
     console.log("TOKEN PAIRS: ", pairs);
