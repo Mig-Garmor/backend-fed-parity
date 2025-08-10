@@ -35,7 +35,7 @@ export default async function handler(req, res) {
         h24: pair.volume.h24,
       },
       liquidity: {
-        total: pair.liquidity.usd,
+        total: pair.liquidity?.usd || "",
         baseToken: pair.liquidity.base,
         quoteToken: pair.liquidity.quote,
       },
