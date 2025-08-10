@@ -1,4 +1,5 @@
 import { verifyApiKey } from "../lib/auth.js";
+import { applyCors } from "../lib/cors.js";
 
 const TOKENS = [
   { name: "FED", tokenAddress: "0x1d177cb9efeea49a8b97ab1c72785a3a37abc9ff" },
