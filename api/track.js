@@ -1,4 +1,5 @@
 import { redis } from "../lib/redisClient.js";
+import { applyCors } from "../lib/cors.js";
 
 export const config = {
   runtime: "nodejs",
