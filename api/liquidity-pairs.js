@@ -21,8 +21,29 @@ export default async function handler(req, res) {
         const res = await fetch(
           `https://api.dexscreener.com/token-pairs/v1/pulsechain/${token.pairAddress}`
         );
-        const data = await res.json();
-        console.log("TOKEN PAIR: ", data);
+        const pairs = await res.json();
+        console.log("TOKEN PAIRS: ", pairs);
+        const pairsFormattedData = pairs.map((pair) => ({
+          pairAddress: pair.pairAddress,
+          baseToken: {
+            address: pair.baseToken.address,
+            symbol: pair.baseToken.symbol,
+          },
+          quoteToken: {
+            address: pair.quoteToken.address,
+            symbol: pair.quoteToken.symbol,
+          },
+          volume: {
+            h24: pair.volume.h24,
+          },
+          liquidity: {
+            total: pair.liquidity.usd,
+            baseToken: pair.liquidity.base,
+            quoteToken: pair.liquidity.quote,
+          },
+          pairCreationTime: pair.pairCreatedAt,
+        }));
+        console.log("PAIRS FORMATTED DATA: ", pairsFormattedData);
         // const pair = data.pairs?.[0];
 
         // prices[token.name] = {
