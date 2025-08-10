@@ -9,9 +9,10 @@ export const config = {
 };
 
 export default async function handler(req, res) {
-  if (!verifyApiKey(req)) {
-    return res.status(401).json({ error: "Unauthorized" });
-  }
+  //   if (!verifyApiKey(req)) {
+  //     return res.status(401).json({ error: "Unauthorized" });
+  //   }
+  if (!applyCors(req, res)) return;
 
   try {
     const res = await fetch(
