@@ -16,10 +16,10 @@ export default async function handler(req, res) {
   if (!applyCors(req, res)) return;
 
   try {
-    const res = await fetch(
+    const apiRes = await fetch(
       `https://api.dexscreener.com/token-pairs/v1/pulsechain/${TOKENS[0].tokenAddress}`
     );
-    const pairs = await res.json();
+    const pairs = await apiRes.json();
     console.log("TOKEN PAIRS: ", pairs);
     const pairsFormattedData = pairs.map((pair) => ({
       pairAddress: pair.pairAddress,
