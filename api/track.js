@@ -1,6 +1,12 @@
 import { redis } from "../lib/redisClient.js";
 
+export const config = {
+  runtime: "nodejs",
+};
+
 export default async function handler(req, res) {
+  if (!applyCors(req, res)) return;
+
   if (req.method === "POST") {
     const event = req.body;
 
