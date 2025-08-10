@@ -50,7 +50,7 @@ export default async function handler(req, res) {
     // };
     return res
       .status(200)
-      .json({ message: "Pairs updated", pairsFormattedData });
+      .json({ message: "Pairs updated", pairs: pairsFormattedData });
   } catch (err) {
     // prices[token.name] = {
     //   error: true,
