@@ -1,5 +1,6 @@
 import { verifyApiKey } from "../lib/auth.js";
 import { applyCors } from "../lib/cors.js";
+import { redis } from "../lib/redisClient.js";
 
 const TOKENS = [
   { name: "FED", tokenAddress: "0x1d177cb9efeea49a8b97ab1c72785a3a37abc9ff" },
@@ -10,9 +11,9 @@ export const config = {
 };
 
 export default async function handler(req, res) {
-  //   if (!verifyApiKey(req)) {
-  //     return res.status(401).json({ error: "Unauthorized" });
-  //   }
+  if (!verifyApiKey(req)) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
   if (!applyCors(req, res)) return;
 
   try {
@@ -48,6 +49,9 @@ export default async function handler(req, res) {
     //   price: pair?.priceUsd || null,
     //   lastUpdated: new Date().toISOString(),
     // };
+
+    await redis.set("liquidity-pools", JSON.stringify(pairsFormattedData));
+
     return res
       .status(200)
       .json({ message: "Pairs updated", pairs: pairsFormattedData });
