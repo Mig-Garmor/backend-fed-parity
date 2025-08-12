@@ -1,5 +1,4 @@
 import { verifyApiKey } from "../lib/auth.js";
-import { applyCors } from "../lib/cors.js";
 import { redis } from "../lib/redisClient.js";
 
 const TOKENS = [
@@ -11,17 +10,16 @@ export const config = {
 };
 
 export default async function handler(req, res) {
-  if (!verifyApiKey(req)) {
-    return res.status(401).json({ error: "Unauthorized" });
-  }
-  if (!applyCors(req, res)) return;
-
   try {
+    if (!verifyApiKey(req)) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+
     const apiRes = await fetch(
       `https://api.dexscreener.com/token-pairs/v1/pulsechain/${TOKENS[0].tokenAddress}`
     );
     const pairs = await apiRes.json();
-    console.log("TOKEN PAIRS: ", pairs);
+
     const pairsFormattedData = pairs.map((pair) => ({
       pairAddress: pair.pairAddress,
       baseToken: {
@@ -42,25 +40,11 @@ export default async function handler(req, res) {
       },
       pairCreationTime: pair.pairCreatedAt,
     }));
-    // console.log("PAIRS FORMATTED DATA: ", pairsFormattedData);
-    // const pair = data.pairs?.[0];
 
-    // prices[token.name] = {
-    //   price: pair?.priceUsd || null,
-    //   lastUpdated: new Date().toISOString(),
-    // };
+    await redis.set("liquidityPools", JSON.stringify(pairsFormattedData ?? []));
 
-    await redis.set("liquidityPools", JSON.stringify(pairsFormattedData));
-
-    return res
-      .status(200)
-      .json({ message: "Pairs updated", pairs: pairsFormattedData });
+    return res.status(200).json({ message: "Pairs updated" });
   } catch (err) {
-    // prices[token.name] = {
-    //   error: true,
-    //   message: err.message,
-    //   lastUpdated: new Date().toISOString(),
-    // };
     return res.status(500).json({ error: err.message });
   }
 }

@@ -42,7 +42,7 @@ export default async function handler(req, res) {
 
     await redis.set("tokenPrices", JSON.stringify(prices));
 
-    return res.status(200).json({ message: "Prices updated", prices });
+    return res.status(200).json({ message: "Prices updated" });
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
