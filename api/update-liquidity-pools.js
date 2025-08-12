@@ -50,7 +50,7 @@ export default async function handler(req, res) {
     //   lastUpdated: new Date().toISOString(),
     // };
 
-    await redis.set("liquidity-pools", JSON.stringify(pairsFormattedData));
+    await redis.set("liquidityPools", JSON.stringify(pairsFormattedData));
 
     return res
       .status(200)
